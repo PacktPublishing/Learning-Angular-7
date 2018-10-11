@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Assignment} from '../assignment.model';
+import {AssignmentsService} from '../../shared/assignments.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -10,7 +11,7 @@ export class AssignmentDetailComponent implements OnInit {
 
   @Input() passedAssignment: Assignment;
 
-  constructor() {
+  constructor(private assignmentsService: AssignmentsService) {
   }
 
   ngOnInit() {
@@ -18,6 +19,17 @@ export class AssignmentDetailComponent implements OnInit {
 
   onAssignmentSubmitted() {
     this.passedAssignment.submitted = true;
+
+    this.assignmentsService.updateAssignments(this.passedAssignment)
+      .subscribe(success => console.log(success));
+
+  }
+
+  onDelete() {
+    this.assignmentsService.deleteAssignment(this.passedAssignment)
+      .subscribe(res => console.log(res));
+
+    this.passedAssignment = null;
   }
 
 }

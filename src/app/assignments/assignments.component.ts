@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Assignment} from './assignment.model';
+import {AssignmentsService} from '../shared/assignments.service';
 
 @Component({
   selector: 'app-assignments',
@@ -8,31 +9,22 @@ import {Assignment} from './assignment.model';
 })
 export class AssignmentsComponent implements OnInit {
 
-  title = 'My Assignments Application';
-  enabled = false;
   formVisible = false;
 
   selectedAssignment: Assignment;
 
-  assignments: Assignment[] = [{
-    name: 'Maths',
-    dueDate: new Date('2018-01-01'),
-    submitted: true
-  },
-    {
-      name: 'Science',
-      dueDate: new Date('2019-01-01'),
-      submitted: false
-    }
-  ];
+  assignments: Assignment[];
 
-  constructor() {
+  constructor(private assignmentsService: AssignmentsService) {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.enabled = true;
-    }, 2000);
+    this.getAssignments();
+  }
+
+  getAssignments() {
+    this.assignmentsService.getAssignments()
+      .subscribe(assignments => this.assignments = assignments);
   }
 
   setSelected(assignment: Assignment) {
@@ -45,7 +37,9 @@ export class AssignmentsComponent implements OnInit {
   }
 
   onNewAssignment(event: Assignment) {
-    this.assignments.push(event);
+    this.assignmentsService.addAssignments(event)
+      .subscribe(success => console.log(success));
+
     this.formVisible = false;
   }
 

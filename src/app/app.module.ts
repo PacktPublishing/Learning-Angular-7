@@ -1,5 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 import {
   MatButtonModule, MatCardModule, MatCheckbox, MatCheckboxModule,
   MatDatepickerModule,
@@ -8,14 +8,15 @@ import {
   MatListModule,
   MatNativeDateModule
 } from '@angular/material';
-import { AppComponent } from './app.component';
-import { AssignmentsComponent } from './assignments/assignments.component';
-import { SubmittedDirective } from './shared/submitted.directive';
+import {AppComponent} from './app.component';
+import {AssignmentsComponent} from './assignments/assignments.component';
+import {SubmittedDirective} from './shared/submitted.directive';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { TestComponent } from './test/test.component';
-import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
-import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
+import {AssignmentDetailComponent} from './assignments/assignment-detail/assignment-detail.component';
+import {AddAssignmentComponent} from './assignments/add-assignment/add-assignment.component';
+import {AssignmentsService} from './shared/assignments.service';
+import {LoggingService} from './shared/logging.service';
 
 
 @NgModule({
@@ -23,7 +24,6 @@ import { AddAssignmentComponent } from './assignments/add-assignment/add-assignm
     AppComponent,
     AssignmentsComponent,
     SubmittedDirective,
-    TestComponent,
     AssignmentDetailComponent,
     AddAssignmentComponent
   ],
@@ -40,7 +40,8 @@ import { AddAssignmentComponent } from './assignments/add-assignment/add-assignm
     MatCardModule,
     MatCheckboxModule
   ],
-  providers: [],
+  providers: [AssignmentsService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
