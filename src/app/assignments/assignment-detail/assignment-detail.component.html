@@ -6,12 +6,21 @@
     </mat-card-subtitle>
 
     <div id="bottom">
-    <mat-checkbox *ngIf="passedAssignment.submitted === false"
-                  (click)="onAssignmentSubmitted()">
-      mark as submitted
-    </mat-checkbox>
-    <button mat-flat-button color="warn"
-    (click)="onDelete()">DELETE</button>
+      <mat-checkbox *ngIf="passedAssignment.submitted === false"
+                    (click)="onAssignmentSubmitted()">
+        mark as submitted
+      </mat-checkbox>
+
+      <button mat-stroked-button color="primary"
+              (click)="onClickEdit()"
+              [disabled]="!isAdmin()"
+              #edit>Edit
+      </button>
+
+      <button mat-flat-button color="warn"
+              #delete
+              (click)="onDelete()">DELETE
+      </button>
     </div>
   </mat-card>
 </div>

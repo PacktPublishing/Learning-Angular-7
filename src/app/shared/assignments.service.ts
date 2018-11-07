@@ -9,11 +9,13 @@ import {LoggingService} from './logging.service';
 export class AssignmentsService {
 
   assignments: Assignment[] = [{
+    id: 1,
     name: 'Maths',
     dueDate: new Date('2018-01-01'),
     submitted: true
   },
     {
+      id: 2,
       name: 'Science',
       dueDate: new Date('2019-01-01'),
       submitted: false
@@ -27,7 +29,13 @@ export class AssignmentsService {
     return of(this.assignments);
   }
 
+  getAssignment(id: number): Observable<Assignment> {
+    return of(this.assignments.find(x => x.id === id));
+  }
+
   addAssignments(assignment: Assignment): Observable<string> {
+
+    assignment.id = this.assignments.length + 1;
     this.assignments.push(assignment);
 
     this.loggingService.log(assignment.name, 'added');

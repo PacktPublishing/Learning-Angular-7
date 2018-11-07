@@ -6,7 +6,7 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatListModule,
-  MatNativeDateModule
+  MatNativeDateModule, MatSlideToggleModule
 } from '@angular/material';
 import {AppComponent} from './app.component';
 import {AssignmentsComponent} from './assignments/assignments.component';
@@ -17,7 +17,21 @@ import {AssignmentDetailComponent} from './assignments/assignment-detail/assignm
 import {AddAssignmentComponent} from './assignments/add-assignment/add-assignment.component';
 import {AssignmentsService} from './shared/assignments.service';
 import {LoggingService} from './shared/logging.service';
+import {RouterModule, Routes} from '@angular/router';
+import {EditAssignmentComponent} from './assignments/assignment-detail/edit-assignment/edit-assignment.component';
+import {AuthGuard} from './shared/auth.guard';
 
+const routes: Routes = [
+  {path: '', component: AssignmentsComponent},
+  {path: 'home', component: AssignmentsComponent},
+  {path: 'add', component: AddAssignmentComponent},
+  {path: 'assignment/:id', component: AssignmentDetailComponent},
+  {
+    path: 'assignment/:id/edit',
+    canActivate: [AuthGuard],
+    component: EditAssignmentComponent
+  }
+];
 
 @NgModule({
   declarations: [
@@ -25,7 +39,8 @@ import {LoggingService} from './shared/logging.service';
     AssignmentsComponent,
     SubmittedDirective,
     AssignmentDetailComponent,
-    AddAssignmentComponent
+    AddAssignmentComponent,
+    EditAssignmentComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +53,9 @@ import {LoggingService} from './shared/logging.service';
     MatNativeDateModule,
     MatListModule,
     MatCardModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    RouterModule.forRoot(routes),
+    MatSlideToggleModule
   ],
   providers: [AssignmentsService],
   bootstrap: [AppComponent]

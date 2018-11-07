@@ -1,10 +1,14 @@
-<main class="container" *ngIf="formVisible === false">
-  <button class="addBtn"
-          mat-flat-button color="accent"
+<main class="container" >
+  <div class="addBtn">
+    <a routerLink="/add">
+  <button mat-flat-button color="accent"
           (click)="onAddBtnClick()">Add assignment
   </button>
+    </a>
+  </div>
 
   <mat-list *ngFor="let assignment of assignments">
+    <nav><a routerLink="/assignment/{{assignment.id}}">
     <h3 mat-subheader>{{assignment.dueDate | date}}</h3>
     <mat-list-item (click)="setSelected(assignment)">
       <p matLine appSubmitted *ngIf="assignment.submitted; else unsubmitted">
@@ -16,10 +20,11 @@
 
       <mat-divider></mat-divider>
     </mat-list-item>
+    </a></nav>
   </mat-list>
 </main>
 
-<app-add-assignment (newAssignment)="onNewAssignment($event)"
-                    *ngIf="formVisible"></app-add-assignment>
+<!--<app-add-assignment (newAssignment)="onNewAssignment($event)"-->
+                    <!--*ngIf="formVisible"></app-add-assignment>-->
 
-<app-assignment-detail [passedAssignment]="selectedAssignment"></app-assignment-detail>
+<!--<app-assignment-detail [passedAssignment]="selectedAssignment"></app-assignment-detail>-->

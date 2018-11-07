@@ -6,4 +6,10 @@
 /*pink-bluegrey.css*/
 /*purple-green.css*/
 
+* {
+  font-family: "Andale Mono", sans-serif;
+}
 
+a {
+  text-decoration: none;
+}
