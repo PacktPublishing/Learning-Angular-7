@@ -53,7 +53,7 @@ function updateAssignment(req, res) {
 // Delete an assignment
 function deleteAssignment(req, res) {
 
-    Assignment.findOneAndRemove(req.params._id, (err, assignment) => {
+    Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
         if (err) {
             res.send(err);
         }

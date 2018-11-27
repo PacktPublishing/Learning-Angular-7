@@ -6,9 +6,7 @@ let assignment = require('./routes/assignments');
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-// TODO enter your connection string
 const uri = '<connection-string>';
-
 
 const options = {
   useNewUrlParser: true
@@ -42,12 +40,13 @@ app.route(prefix + '/assignments')
   .get(assignment.getAssignments);
 
 app.route(prefix + '/assignment/:id')
-  .get(assignment.getAssignment);
+  .get(assignment.getAssignment)
+  .delete(assignment.deleteAssignment);
+
 
 app.route(prefix + '/assignment')
   .post(assignment.postAssignment)
-  .put(assignment.updateAssignment)
-  .delete(assignment.deleteAssignment);
+  .put(assignment.updateAssignment);
 
 // START THE SERVER
 app.listen(port, "0.0.0.0");
