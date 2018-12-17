@@ -6,7 +6,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatListModule,
-  MatNativeDateModule, MatSlideToggleModule
+  MatNativeDateModule, MatSlideToggleModule,
+  MatSnackBarModule, MatStepperModule, MatTabsModule
 } from '@angular/material';
 import {AppComponent} from './app.component';
 import {AssignmentsComponent} from './assignments/assignments.component';
@@ -20,6 +21,8 @@ import {LoggingService} from './shared/logging.service';
 import {RouterModule, Routes} from '@angular/router';
 import {EditAssignmentComponent} from './assignments/assignment-detail/edit-assignment/edit-assignment.component';
 import {AuthGuard} from './shared/auth.guard';
+import {HttpClientModule} from '@angular/common/http';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 
 const routes: Routes = [
   {path: '', component: AssignmentsComponent},
@@ -40,7 +43,8 @@ const routes: Routes = [
     SubmittedDirective,
     AssignmentDetailComponent,
     AddAssignmentComponent,
-    EditAssignmentComponent
+    EditAssignmentComponent,
+    SnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,14 @@ const routes: Routes = [
     MatCardModule,
     MatCheckboxModule,
     RouterModule.forRoot(routes),
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    HttpClientModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatSnackBarModule
+  ],
+  entryComponents: [
+    SnackbarComponent
   ],
   providers: [AssignmentsService],
   bootstrap: [AppComponent]

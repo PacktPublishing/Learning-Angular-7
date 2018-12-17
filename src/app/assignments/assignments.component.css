@@ -7,3 +7,15 @@
   align-self: flex-end;
   margin-top: -54px;
 }
+
+mat-card {
+  margin: 5px 0 5px 0;
+  max-width: 400px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+

@@ -2,68 +2,76 @@ import {Injectable} from '@angular/core';
 import {Assignment} from '../assignments/assignment.model';
 import {Observable, of} from 'rxjs';
 import {LoggingService} from './logging.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, map, tap} from 'rxjs/internal/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentsService {
 
-  assignments: Assignment[] = [{
-    id: 1,
-    name: 'Maths',
-    dueDate: new Date('2018-01-01'),
-    submitted: true
-  },
-    {
-      id: 2,
-      name: 'Science',
-      dueDate: new Date('2019-01-01'),
-      submitted: false
-    }
-  ];
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
-  constructor(private loggingService: LoggingService) {
+  url = 'http://localhost:8010/api/assignments';
+  urlOne = 'http://localhost:8010/api/assignment';
+
+  constructor(private loggingService: LoggingService,
+              private http: HttpClient) {
   }
 
   getAssignments(): Observable<Assignment[]> {
-    return of(this.assignments);
+    // return of(this.assignments);
+
+    return this.http.get<Assignment[]>(this.url);
   }
 
   getAssignment(id: number): Observable<Assignment> {
-    return of(this.assignments.find(x => x.id === id));
+    // return of(this.assignments.find(x => x.id === id));
+
+    return this.http.get<Assignment>(this.urlOne + '/' + id)
+      .pipe(
+        tap(_ => console.log(`fetched assignment id=${id}`)),
+        catchError(this.handleError<Assignment>(`getAssignment id=${id}`))
+      );
   }
 
-  addAssignments(assignment: Assignment): Observable<string> {
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
 
-    assignment.id = this.assignments.length + 1;
-    this.assignments.push(assignment);
+      console.error(error); // log to console instead
 
-    this.loggingService.log(assignment.name, 'added');
+      console.log(`${operation} failed: ${error.message}`);
 
-    return of('assignment added!');
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 
-  updateAssignments(assignment: Assignment): Observable<string> {
-    this.assignments.forEach((assignment, i) => {
-      if (assignment === assignment) {
-        this.assignments[i] = assignment;
-      }
-    });
+  addAssignments(assignment: Assignment): Observable<any> {
 
-    this.loggingService.log(assignment.name, 'updated');
+    // assignment.id = this.assignments.length + 1;
+    // this.assignments.push(assignment);
+    //
+    // this.loggingService.log(assignment.name, 'added');
+    //
+    // return of('assignment added!');
 
-    return of('assignment updated!');
+    return this.http.post<Assignment>(this.urlOne, assignment, this.httpOptions);
   }
 
-  deleteAssignment(deletedAssignment: Assignment): Observable<string> {
-    this.assignments.forEach((assignment, i) => {
-      if (assignment === deletedAssignment) {
-        this.assignments.splice(i, 1);
-      }
-    });
+  updateAssignments(assignment: Assignment): Observable<any> {
 
-    this.loggingService.log(deletedAssignment.name, 'deleted');
+    return this.http.put<Assignment>(this.urlOne, assignment);
+  }
 
-    return of('assignment deleted');
+  deleteAssignment(deletedAssignment: Assignment): Observable<any> {
+
+    const newUrl = this.urlOne + '/' + deletedAssignment._id;
+
+    return this.http.delete(newUrl);
   }
 }

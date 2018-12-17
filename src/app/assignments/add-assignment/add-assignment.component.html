@@ -1,24 +1,45 @@
-<form ngForm #assignmentsForm class="form">
+<mat-vertical-stepper>
 
-  <mat-form-field>
-    <input matInput #assignmentName
-           [(ngModel)]="name" placeholder="enter assignment name"
-           name="name">
-  </mat-form-field>
+  <mat-step label="Assignment name">
+    <form ngForm #assignmentsForm class="form">
 
-  <mat-form-field>
-    <input matInput
-           [matDatepicker]="picker"
-           [(ngModel)]="dueDate"
-           name="name" placeholder="whens your assignment due?">
-    <mat-datepicker-toggle matSuffix
-                           [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+      <mat-form-field>
+        <input matInput #assignmentName
+               [(ngModel)]="name" placeholder="enter assignment name"
+               name="name">
+      </mat-form-field>
 
-  <button mat-stroked-button
-          (click)="onSubmit(); assignmentsForm.reset()"
-          routerLink="/home"
-          color="primary">Add Assignment
-  </button>
-</form>
+      <button mat-stroked-button color="primary" matStepperNext>Next</button>
+
+    </form>
+  </mat-step>
+
+  <mat-step label="Due date">
+    <form class="form">
+      <mat-form-field>
+        <input matInput
+               [matDatepicker]="picker"
+               [(ngModel)]="dueDate"
+               name="name" placeholder="whens your assignment due?">
+        <mat-datepicker-toggle matSuffix
+                               [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-stroked-button color="primary" matStepperNext>Next</button>
+      <button mat-stroked-button color="warn" matStepperPrevious>Back</button>
+    </form>
+  </mat-step>
+
+  <mat-step label="Submit">
+    <form class="form">
+      <button mat-stroked-button color="warn" matStepperPrevious>Back</button>
+      <button mat-stroked-button
+              (click)="onSubmit(); assignmentsForm.reset()"
+              color="primary">Add Assignment
+      </button>
+    </form>
+  </mat-step>
+
+</mat-vertical-stepper>
+

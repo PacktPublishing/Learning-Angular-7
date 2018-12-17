@@ -1,14 +1,14 @@
 <div class="container" *ngIf="passedAssignment">
-  <mat-card>
+  <mat-card [@confirmedSubmission]="passedAssignment.submitted ? 'submitted' : 'unsubmitted'">
     <mat-card-title>{{passedAssignment.name}}</mat-card-title>
     <mat-card-subtitle>
       {{passedAssignment.dueDate | date}}
     </mat-card-subtitle>
 
     <div id="bottom">
-      <mat-checkbox *ngIf="passedAssignment.submitted === false"
+      <mat-checkbox [@submission]="passedAssignment.submitted ? 'submitted' : 'unsubmitted'"
                     (click)="onAssignmentSubmitted()">
-        mark as submitted
+        {{passedAssignment.submitted ? 'Already submitted' : 'Submit assignment'}}
       </mat-checkbox>
 
       <button mat-stroked-button color="primary"

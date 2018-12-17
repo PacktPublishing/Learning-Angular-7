@@ -6,7 +6,7 @@ let assignment = require('./routes/assignments');
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const uri = '<connection-string>';
+const uri = 'mongodb+srv://sam:giznuz-cuwkyw-9Bebqi@cluster0-0ba98.mongodb.net/assignments?retryWrites=true';
 
 const options = {
   useNewUrlParser: true

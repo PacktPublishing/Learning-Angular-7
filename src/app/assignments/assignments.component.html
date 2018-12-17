@@ -1,30 +1,94 @@
-<main class="container" >
+<main class="container">
   <div class="addBtn">
     <a routerLink="/add">
-  <button mat-flat-button color="accent"
-          (click)="onAddBtnClick()">Add assignment
-  </button>
+      <button mat-flat-button color="accent"
+              (click)="onAddBtnClick()">Add assignment
+      </button>
     </a>
   </div>
 
-  <mat-list *ngFor="let assignment of assignments">
-    <nav><a routerLink="/assignment/{{assignment.id}}">
-    <h3 mat-subheader>{{assignment.dueDate | date}}</h3>
-    <mat-list-item (click)="setSelected(assignment)">
-      <p matLine appSubmitted *ngIf="assignment.submitted; else unsubmitted">
-        You're {{assignment.name}} assignment has been submitted!</p>
+  <mat-tab-group>
+    <mat-tab label="Due">
+    <div *ngFor="let assignment of assignments">
+      <mat-card *ngIf="assignment.submitted === false">
+        <div class="header">
+          <div class="left">
+            <mat-card-title>{{assignment.name}}</mat-card-title>
+            <mat-card-subtitle>
+              Due {{assignment.dueDate | date}}
+            </mat-card-subtitle>
+          </div>
+          <div class="right">
+            <img mat-card-avatar src="../../assets/sam.jpeg" alt="sam">
+          </div>
+        </div>
+        <mat-card-content>An example of displaying content on a card
+        </mat-card-content>
+        <img mat-card-image
+             src="../../assets/writing.jpeg"
+             alt="writing"
+             class="card-image">
+        <mat-card-actions>
+          <button mat-flat-button
+                  color="link"
+                  (click)="setSelected(assignment)">Detail
+          </button>
+        </mat-card-actions>
+        <mat-card-footer>Packt Publishing</mat-card-footer>
+      </mat-card>
+    </div>
+  </mat-tab>
 
-      <ng-template matLine #unsubmitted>
-        You're {{assignment.name}} assignment hasn't been submitted!
-      </ng-template>
+    <mat-tab label="Submitted">
+      <div *ngFor="let assignment of assignments">
+        <mat-card *ngIf="assignment.submitted === true">
+          <div class="header">
+            <div class="left">
+              <mat-card-title>{{assignment.name}}</mat-card-title>
+              <mat-card-subtitle>
+                Submitted
+              </mat-card-subtitle>
+            </div>
+            <div class="right">
+              <img mat-card-avatar src="../../assets/sam.jpeg" alt="sam">
+            </div>
+          </div>
+          <mat-card-content>An example of displaying content on a card
+          </mat-card-content>
+          <img mat-card-image
+               src="../../assets/writing.jpeg"
+               alt="writing"
+               class="card-image">
+          <mat-card-actions>
+            <button mat-flat-button
+                    color="link"
+                    (click)="setSelected(assignment)">Detail
+            </button>
+          </mat-card-actions>
+          <mat-card-footer>Packt Publishing</mat-card-footer>
+        </mat-card>
+      </div>
+    </mat-tab>
 
-      <mat-divider></mat-divider>
-    </mat-list-item>
-    </a></nav>
-  </mat-list>
+  </mat-tab-group>
+
+
+  <!--<mat-list *ngFor="let assignment of assignments">-->
+  <!--<h3 mat-subheader>{{assignment.dueDate | date}}</h3>-->
+  <!--<mat-list-item (click)="setSelected(assignment)">-->
+  <!--<p matLine appSubmitted *ngIf="assignment.submitted; else unsubmitted">-->
+  <!--You're {{assignment.name}} assignment has been submitted!</p>-->
+
+  <!--<ng-template matLine #unsubmitted>-->
+  <!--You're {{assignment.name}} assignment hasn't been submitted!-->
+  <!--</ng-template>-->
+
+  <!--<mat-divider></mat-divider>-->
+  <!--</mat-list-item>-->
+  <!--</mat-list>-->
 </main>
 
 <!--<app-add-assignment (newAssignment)="onNewAssignment($event)"-->
-                    <!--*ngIf="formVisible"></app-add-assignment>-->
+<!--*ngIf="formVisible"></app-add-assignment>-->
 
 <!--<app-assignment-detail [passedAssignment]="selectedAssignment"></app-assignment-detail>-->
