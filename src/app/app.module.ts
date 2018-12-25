@@ -23,6 +23,8 @@ import {EditAssignmentComponent} from './assignments/assignment-detail/edit-assi
 import {AuthGuard} from './shared/auth.guard';
 import {HttpClientModule} from '@angular/common/http';
 import { SnackbarComponent } from './snackbar/snackbar.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const routes: Routes = [
   {path: '', component: AssignmentsComponent},
@@ -63,7 +65,9 @@ const routes: Routes = [
     HttpClientModule,
     MatTabsModule,
     MatStepperModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ScrollingModule,
+    DragDropModule
   ],
   entryComponents: [
     SnackbarComponent

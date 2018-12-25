@@ -9,35 +9,40 @@
 
   <mat-tab-group>
     <mat-tab label="Due">
-    <div *ngFor="let assignment of assignments">
-      <mat-card *ngIf="assignment.submitted === false">
-        <div class="header">
-          <div class="left">
-            <mat-card-title>{{assignment.name}}</mat-card-title>
-            <mat-card-subtitle>
-              Due {{assignment.dueDate | date}}
-            </mat-card-subtitle>
-          </div>
-          <div class="right">
-            <img mat-card-avatar src="../../assets/sam.jpeg" alt="sam">
-          </div>
+      <cdk-virtual-scroll-viewport
+        class="example-viewport"
+        style="height: 300vh"
+        itemSize="415">
+        <div *cdkVirtualFor="let assignment of assignments">
+          <mat-card *ngIf="assignment.submitted === false">
+            <div class="header">
+              <div class="left">
+                <mat-card-title>{{assignment.name}}</mat-card-title>
+                <mat-card-subtitle>
+                  Due {{assignment.dueDate | date}}
+                </mat-card-subtitle>
+              </div>
+              <div class="right">
+                <img mat-card-avatar src="../../assets/sam.jpeg" alt="sam">
+              </div>
+            </div>
+            <mat-card-content>An example of displaying content on a card
+            </mat-card-content>
+            <img mat-card-image
+                 src="../../assets/writing.jpeg"
+                 alt="writing"
+                 class="card-image">
+            <mat-card-actions>
+              <button mat-flat-button
+                      color="link"
+                      (click)="setSelected(assignment)">Detail
+              </button>
+            </mat-card-actions>
+            <mat-card-footer>Packt Publishing</mat-card-footer>
+          </mat-card>
         </div>
-        <mat-card-content>An example of displaying content on a card
-        </mat-card-content>
-        <img mat-card-image
-             src="../../assets/writing.jpeg"
-             alt="writing"
-             class="card-image">
-        <mat-card-actions>
-          <button mat-flat-button
-                  color="link"
-                  (click)="setSelected(assignment)">Detail
-          </button>
-        </mat-card-actions>
-        <mat-card-footer>Packt Publishing</mat-card-footer>
-      </mat-card>
-    </div>
-  </mat-tab>
+      </cdk-virtual-scroll-viewport>
+    </mat-tab>
 
     <mat-tab label="Submitted">
       <div *ngFor="let assignment of assignments">
@@ -69,23 +74,48 @@
         </mat-card>
       </div>
     </mat-tab>
-
   </mat-tab-group>
 
+  <div class="column-container">
+    <div class="example-container">
+      <h2>Unsubmitted</h2>
 
-  <!--<mat-list *ngFor="let assignment of assignments">-->
-  <!--<h3 mat-subheader>{{assignment.dueDate | date}}</h3>-->
-  <!--<mat-list-item (click)="setSelected(assignment)">-->
-  <!--<p matLine appSubmitted *ngIf="assignment.submitted; else unsubmitted">-->
-  <!--You're {{assignment.name}} assignment has been submitted!</p>-->
+      <div
+        cdkDropList
+        #unsubmittedList="cdkDropList"
+        [cdkDropListData]="unsubmitted"
+        [cdkDropListConnectedTo]="[submittedList]"
+        (cdkDropListDropped)="onDrop($event)"
+        class="example-list">
 
-  <!--<ng-template matLine #unsubmitted>-->
-  <!--You're {{assignment.name}} assignment hasn't been submitted!-->
-  <!--</ng-template>-->
+        <div class="example-box"
+             *ngFor="let item of unsubmitted"
+             cdkDrag>
+          <p>{{item.name}}</p>
+        </div>
+      </div>
 
-  <!--<mat-divider></mat-divider>-->
-  <!--</mat-list-item>-->
-  <!--</mat-list>-->
+    </div>
+
+    <div class="example-container">
+      <h2>Submitted</h2>
+
+      <div
+        cdkDropList
+        #submittedList="cdkDropList"
+        [cdkDropListData]="submitted"
+        [cdkDropListConnectedTo]="unsubmittedList"
+        (cdkDropListDropped)="onDrop($event)"
+        class="example-list">
+
+        <div class="example-box"
+             *ngFor="let item of submitted"
+             cdkDrag>
+          <p>{{item.name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 
 <!--<app-add-assignment (newAssignment)="onNewAssignment($event)"-->

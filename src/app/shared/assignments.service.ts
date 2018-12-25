@@ -3,7 +3,8 @@ import {Assignment} from '../assignments/assignment.model';
 import {Observable, of} from 'rxjs';
 import {LoggingService} from './logging.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, map, tap} from 'rxjs/internal/operators';
+import {catchError, filter, map, tap} from 'rxjs/internal/operators';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,11 @@ export class AssignmentsService {
 
   url = 'http://localhost:8010/api/assignments';
   urlOne = 'http://localhost:8010/api/assignment';
+
+  submitted = [];
+  unsubmitted = [];
+
+  assignments: Assignment[];
 
   constructor(private loggingService: LoggingService,
               private http: HttpClient) {
@@ -37,6 +43,22 @@ export class AssignmentsService {
         tap(_ => console.log(`fetched assignment id=${id}`)),
         catchError(this.handleError<Assignment>(`getAssignment id=${id}`))
       );
+  }
+
+  getSubmitted() {
+    const assignments = this.http.get<Assignment[]>(this.url);
+
+    return assignments
+      .pipe(map(
+        arr =>
+          arr.filter(a => a.submitted === true)));
+  }
+
+  getUnsubmitted() {
+    const assignments = this.http.get<Assignment[]>(this.url);
+
+    return assignments.pipe(map(arr =>
+      arr.filter(a => a.submitted === false)));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
