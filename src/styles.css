@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+/*deeppurple-amber.css*/
+/*indigo-pink.css*/
+/*pink-bluegrey.css*/
+/*purple-green.css*/
+
+* {
+  font-family: "Andale Mono", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: dimgrey;
+}

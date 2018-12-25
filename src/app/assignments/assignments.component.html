@@ -1,0 +1,124 @@
+<main class="container">
+  <div class="addBtn">
+    <a routerLink="/add">
+      <button mat-flat-button color="accent"
+              (click)="onAddBtnClick()">Add assignment
+      </button>
+    </a>
+  </div>
+
+  <mat-tab-group>
+    <mat-tab label="Due">
+      <cdk-virtual-scroll-viewport
+        class="example-viewport"
+        style="height: 300vh"
+        itemSize="415">
+        <div *cdkVirtualFor="let assignment of assignments">
+          <mat-card *ngIf="assignment.submitted === false">
+            <div class="header">
+              <div class="left">
+                <mat-card-title>{{assignment.name}}</mat-card-title>
+                <mat-card-subtitle>
+                  Due {{assignment.dueDate | date}}
+                </mat-card-subtitle>
+              </div>
+              <div class="right">
+                <img mat-card-avatar src="../../assets/sam.jpeg" alt="sam">
+              </div>
+            </div>
+            <mat-card-content>An example of displaying content on a card
+            </mat-card-content>
+            <img mat-card-image
+                 src="../../assets/writing.jpeg"
+                 alt="writing"
+                 class="card-image">
+            <mat-card-actions>
+              <button mat-flat-button
+                      color="link"
+                      (click)="setSelected(assignment)">Detail
+              </button>
+            </mat-card-actions>
+            <mat-card-footer>Packt Publishing</mat-card-footer>
+          </mat-card>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </mat-tab>
+
+    <mat-tab label="Submitted">
+      <div *ngFor="let assignment of assignments">
+        <mat-card *ngIf="assignment.submitted === true">
+          <div class="header">
+            <div class="left">
+              <mat-card-title>{{assignment.name}}</mat-card-title>
+              <mat-card-subtitle>
+                Submitted
+              </mat-card-subtitle>
+            </div>
+            <div class="right">
+              <img mat-card-avatar src="../../assets/sam.jpeg" alt="sam">
+            </div>
+          </div>
+          <mat-card-content>An example of displaying content on a card
+          </mat-card-content>
+          <img mat-card-image
+               src="../../assets/writing.jpeg"
+               alt="writing"
+               class="card-image">
+          <mat-card-actions>
+            <button mat-flat-button
+                    color="link"
+                    (click)="setSelected(assignment)">Detail
+            </button>
+          </mat-card-actions>
+          <mat-card-footer>Packt Publishing</mat-card-footer>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="column-container">
+    <div class="example-container">
+      <h2>Unsubmitted</h2>
+
+      <div
+        cdkDropList
+        #unsubmittedList="cdkDropList"
+        [cdkDropListData]="unsubmitted"
+        [cdkDropListConnectedTo]="[submittedList]"
+        (cdkDropListDropped)="onDrop($event)"
+        class="example-list">
+
+        <div class="example-box"
+             *ngFor="let item of unsubmitted"
+             cdkDrag>
+          <p>{{item.name}}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="example-container">
+      <h2>Submitted</h2>
+
+      <div
+        cdkDropList
+        #submittedList="cdkDropList"
+        [cdkDropListData]="submitted"
+        [cdkDropListConnectedTo]="unsubmittedList"
+        (cdkDropListDropped)="onDrop($event)"
+        class="example-list">
+
+        <div class="example-box"
+             *ngFor="let item of submitted"
+             cdkDrag>
+          <p>{{item.name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!--<app-add-assignment (newAssignment)="onNewAssignment($event)"-->
+<!--*ngIf="formVisible"></app-add-assignment>-->
+
+<!--<app-assignment-detail [passedAssignment]="selectedAssignment"></app-assignment-detail>-->
